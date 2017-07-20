@@ -4,7 +4,7 @@ from sklearn import datasets #テスト用のデータセット読み込み
 digits = datasets.load_digits() #digitデータのロード
 
 from sklearn import svm #アルゴリズムとしてsvmを使用
-clf = svm.SVC(gamma=0.001, C=100.)
+clf = svm.SVC(gamma=0.001, C=100.) # おまじない
 
 clf.fit(digits.data[:-1], digits.target[:-1]) #トレーニングデータを全て学習
 

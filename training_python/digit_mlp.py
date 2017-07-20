@@ -4,7 +4,7 @@ from sklearn import datasets #テスト用のデータセット読み込み
 digits = datasets.load_digits() #digitデータのロード
 
 from sklearn.neural_network import MLPClassifier #アルゴリズムとしてMLPを使用
-clf = MLPClassifier(max_iter=50,hidden_layer_sizes=(100,))
+clf = MLPClassifier(max_iter=50,hidden_layer_sizes=(100,)) # おまじない
 
 clf.fit(digits.data[:-1], digits.target[:-1]) #トレーニングデータを全て学習
 

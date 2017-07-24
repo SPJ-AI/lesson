@@ -15,7 +15,7 @@ $ python train.py
 $ python generate.py
 ```
 
-The generated texts are changed when you use `seed` parameter.
+You can change the generated texts randomly by using `seed` parameter.
 
 ```
 $ python generate.py --seed=1234

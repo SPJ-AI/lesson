@@ -25,8 +25,6 @@ for line in lines:
 
 # vocabを作る
 vocab = {}
-#vocab["::BOS/EOS,*,*,*,*,*,*,*,*"] = 0 #文末を表す「::BOS/EOS,*,*,*,*,*,*,*,*」は「0」にしておく。
-#vocab["<BOS>"] = len(vocab)
 vocab["<EOS>"] = 0
 for i,words_by_line in enumerate(words_by_lines):
     for word in words_by_line:

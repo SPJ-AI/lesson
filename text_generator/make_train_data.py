@@ -43,6 +43,9 @@ for i, words_by_line in enumerate(words_by_lines):
         datasetline[j] = vocab[word]
     dataset.append(datasetline)
 
+import os
+if not os.path.exists("data"):
+    os.mkdir("data")
 
 print('line num:', len(dataset))
 print('line_max_length:', max_length)

@@ -10,7 +10,7 @@ import re
 
 
 # テキストファイルを行ごとのリストとして読み込み
-input_txt = 'text/Descartes.txt'
+input_txt = 'text/texts.txt'
 f = codecs.open(input_txt, 'rb', 'utf-8')
 lines = f.readlines()
 lines = re.findall(r"<BOS>(.*?)<EOS>","".join(lines))

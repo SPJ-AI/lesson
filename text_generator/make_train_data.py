@@ -20,12 +20,13 @@ m = MeCab.Tagger ("-O wakati")
 words_by_lines = []
 for line in lines:
     words = m.parse(line).split()
-    words.append("<EOS>")
+    words = ['<BOS>'] + words + ['<EOS>']
     words_by_lines.append(words)
 
 # vocabを作る
 vocab = {}
-vocab["<EOS>"] = 0
+vocab["<BOS>"] = 0
+vocab["<EOS>"] = 1
 for i,words_by_line in enumerate(words_by_lines):
     for word in words_by_line:
         if word not in vocab:

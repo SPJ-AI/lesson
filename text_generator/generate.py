@@ -12,6 +12,9 @@ import MeCab
 from LSTM import LSTM
 
 
+BOS_INDEX = 0
+EOS_INDEX = 1
+
 # arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('--unit_size',        type=int,   default=100)
@@ -50,17 +53,17 @@ for c, i in vocab.items():
 def get_index_a(_model):
     _model.predictor.reset_state()
     _sentence_index_a = []
-    #最初の単語はランダムに決める
-    index = np.random.randint(1, len(vocab))
+    index = BOS_INDEX
     _sentence_index_a.append(index)
-    while index != 0:
+    while index != EOS_INDEX:
         y = _model.predictor(xp.array([index], dtype=xp.int32))
         probability = F.softmax(y)
         probability.data[0] /= sum(probability.data[0])
         try:
             #確率によって、ランダムに１つ単語を選択
+            #index = np.argmax(probability.data[0])
             index = xp.random.choice(range(len(probability.data[0])), p=probability.data[0])
-            if index!=0:
+            if index!=EOS_INDEX:
                 #終了<EOS>でなかった場合
                 _sentence_index_a.append(index)
         except Exception as e:

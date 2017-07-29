@@ -54,7 +54,6 @@ def get_index_a(_model):
     _model.predictor.reset_state()
     _sentence_index_a = []
     index = BOS_INDEX
-    _sentence_index_a.append(index)
     while index != EOS_INDEX:
         y = _model.predictor(xp.array([index], dtype=xp.int32))
         probability = F.softmax(y)

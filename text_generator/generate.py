@@ -86,7 +86,7 @@ def get_next_word_prob(_model, word, next_word, needModelStateReset=False):
     
     # In this case, the input could be an unknow word.
     if next_word not in vocab:
-        return (0.0, 0.0)
+        return (0.0, 0.0,-1)
     
     next_index = vocab[next_word]
     k, = np.where(m == next_index)
@@ -127,9 +127,11 @@ def text_correction(_model, text):
 print('\n-=-=-=-=-=-=-=-')
 #for i in range(1):
     #sentence_index_a = get_index_a(model)
-order_prob, next_prob, index = get_next_word_prob(model, "最大", "の", needModelStateReset=True)
+
+#vocab.binに出現する単語を入れる
+order_prob, next_prob, index = get_next_word_prob(model, "税込み", "の", needModelStateReset=True)
 print(order_prob, next_prob, index)
-order_prob, next_prob, index = get_next_word_prob(model, "の", "害悪")
+order_prob, next_prob, index = get_next_word_prob(model, "の", "のの")
 print(order_prob, next_prob, index)
 
 '''

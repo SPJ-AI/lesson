@@ -77,7 +77,8 @@ for i in range(10):
     sentence_index_a = get_index_a(model)
 
     for index in sentence_index_a:
-        sys.stdout.write( ivocab[index].split("::")[0] )
+        if index in ivocab:
+            sys.stdout.write( ivocab[index].split("::")[0] )
     print('\n-=-=-=-=-=-=-=-')
 
 print('generated!')

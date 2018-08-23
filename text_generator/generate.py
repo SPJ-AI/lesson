@@ -28,7 +28,6 @@ args = parser.parse_args()
 xp = cuda.cupy if args.gpu >= 0  else np
 xp.random.seed(args.seed)
 mecab = MeCab.Tagger ("-Ochasen")
-m = MeCab.Tagger ("-O wakati")
 
 
 
@@ -72,73 +71,14 @@ def get_index_a(_model):
 
     return _sentence_index_a
 
-def get_next_word_prob(_model, word, next_word, needModelStateReset=False):
-    if needModelStateReset:
-        _model.predictor.reset_state()
-    _sentence_index_a = []
-    index = vocab[word]
-    while index != EOS_INDEX:
-        y = _model.predictor(xp.array([index], dtype=xp.int32))
-        probability = F.softmax(y)
-        next_probs = probability.data[0]
-        m = np.argsort(probability.data[0])
-        break
-    
-    # In this case, the input could be an unknow word.
-    if next_word not in vocab:
-        return (0.0, 0.0,-1)
-    
-    next_index = vocab[next_word]
-    k, = np.where(m == next_index)
-    order_prob = k[0] / len(m)
-    next_prob = next_probs[k[0]]
-
-    return (order_prob, next_prob, k[0])
-
-def suggest_corrections(order_prob, next_prob, index, num=5):
-    suggestions = []
-    
-    # Step1: If it's lower than 25% of the over-all probs
-    if order_prob < 0.25:
-        count = 0
-        for ind in order_prob[::-1]:
-            w = ivocab[ind]
-            suggestions.append(w)
-            count += 1
-            if count >= num:
-                break
-    return suggestions
-
-def text_correction(_model, text):
-    tokens = m.parse(text).split()
-    for i in range(len(tokens)):
-        if i == len(tokens) - 1:
-            break
-        
-        word = tokens[i]
-        next_word = tokens[i + 1]
-        needModelStateReset = True if i == 0 else False
-        
-        (order_prob, next_prob, index) = get_next_word_prob(_model, word, next_word, needModelStateReset)
-        suggestions = suggest_corrections(order_prob, next_prob, index)
-        if len(suggestions) > 0:
-            print("low prob detected", order_prob, next_word, suggestions)
 
 print('\n-=-=-=-=-=-=-=-')
-#for i in range(1):
-    #sentence_index_a = get_index_a(model)
+for i in range(10):
+    sentence_index_a = get_index_a(model)
 
-#vocab.binに出現する単語を入れる
-order_prob, next_prob, index = get_next_word_prob(model, "税込み", "の", needModelStateReset=True)
-print(order_prob, next_prob, index)
-order_prob, next_prob, index = get_next_word_prob(model, "の", "のの")
-print(order_prob, next_prob, index)
-
-'''
     for index in sentence_index_a:
         if index in ivocab:
             sys.stdout.write( ivocab[index].split("::")[0] )
     print('\n-=-=-=-=-=-=-=-')
-'''
 
 print('generated!')
